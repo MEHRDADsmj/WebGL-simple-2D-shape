@@ -5,6 +5,32 @@
 
     <script type="text/javascript" src="lib/glMatrix-0.9.5.min.js"></script>
 
+    <script type="x-shader/x-fragment" id="fragment">
+        #version 330 core
+
+        #ifdef GL_ES
+        precision highp float
+        #endif
+
+        void main()
+        {
+            gl_FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+    </script>
+
+    <script type="x-shader/x-vertex" id="vertex">
+        #version 330 core
+        attribute vec3 aVertexPosition;
+
+        uniform vec4 uPMatrix;
+        uniform vec4 uMVMatrix;
+
+        void main()
+        {
+            gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0f);
+        }
+    </script>
+
     <script type="text/javascript">
         var gl;
 
@@ -19,10 +45,16 @@
             }
         }
 
+        function InitShaders()
+        {
+                        
+        }
+
         function WebGLStart()
         {
             var canvas = document.getElementById("main_canvas");
             InitGL(canvas);
+            InitShaders();
         }
 
     </script>
