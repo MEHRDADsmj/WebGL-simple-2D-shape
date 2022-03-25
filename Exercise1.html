@@ -6,20 +6,17 @@
     <script type="text/javascript" src="lib/glMatrix-0.9.5.min.js"></script>
 
     <script type="x-shader/x-fragment" id="fragment">
-        #version 330 core
-
         #ifdef GL_ES
-        precision highp float
+        precision highp float;
         #endif
 
         void main()
         {
-            gl_FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
         }
     </script>
 
     <script type="x-shader/x-vertex" id="vertex">
-        #version 330 core
         attribute vec3 aVertexPosition;
 
         uniform vec4 uPMatrix;
@@ -27,7 +24,7 @@
 
         void main()
         {
-            gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0f);
+            gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
         }
     </script>
 
@@ -45,9 +42,66 @@
             }
         }
 
+        function GetShader(gl, id)
+        {
+            var shaderScript = document.getElementById(id);
+            if (!shaderScript) {
+                return null;
+            }
+
+            var str = "";
+            var k = shaderScript.firstChild;
+            while (k) {
+                if (k.nodeType == 3) {
+                    str += k.textContent;
+                }
+                k = k.nextSibling;
+            }
+
+            var shader;
+            if (shaderScript.type == "x-shader/x-fragment") {
+                shader = gl.createShader(gl.FRAGMENT_SHADER);
+            } else if (shaderScript.type == "x-shader/x-vertex") {
+                shader = gl.createShader(gl.VERTEX_SHADER);
+            } else {
+                return null;
+            }
+
+            gl.shaderSource(shader, str);
+            gl.compileShader(shader);
+
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                alert(gl.getShaderInfoLog(shader));
+                return null;
+            }
+
+            return shader;
+        }
+
+        var Program;
+
         function InitShaders()
         {
-                        
+            var fragment = GetShader(gl, "fragment");
+            var vertex = GetShader(gl, "vertex");
+
+            Program = gl.createProgram();
+            gl.attachShader(Program, fragment);
+            gl.attachShader(Program, vertex);
+            gl.linkProgram(Program);
+
+            if(!gl.getProgramParameter(Program, gl.LINK_STATUS))
+            {
+                alert("InitShaders linking program failed");
+            }
+
+            gl.useProgram(Program);
+
+            Program.vertexPositionAttribute = Program.getAttribLocation(Program, "aVertexPosition");
+            gl.enableVertexAttribArray(Program.vertexPositionAttribute);
+
+            Program.pMatrixUniform = gl.getUniformLocation(Program, "uPMatrix");
+            Program.mvMatrixUniform = gl.getUniformLocation(Program, "uMVMatrix");
         }
 
         function WebGLStart()
