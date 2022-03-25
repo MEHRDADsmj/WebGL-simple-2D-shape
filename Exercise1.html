@@ -8,9 +8,21 @@
     <script type="text/javascript">
         var gl;
 
+        function InitGL(canvas)
+        {
+            gl = canvas.getContext("experimental-webgl");
+            gl.viewportHeight = canvas.height;
+            gl.viewportWidth = canvas.width;
+            if(!gl)
+            {
+                alert("InitGL failed");
+            }
+        }
+
         function WebGLStart()
         {
-            alert("Hello World!");
+            var canvas = document.getElementById("main_canvas");
+            InitGL(canvas);
         }
 
     </script>
