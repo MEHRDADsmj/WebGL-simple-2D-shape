@@ -104,11 +104,32 @@
             Program.mvMatrixUniform = gl.getUniformLocation(Program, "uMVMatrix");
         }
 
+        var TriangleVertexPositionBuffer;
+
+        function InitBuffers()
+        {
+            var vertices = [
+                -0.5, -0.5, 0.0,
+                0.5, 0.5, 0.0,
+                0.5, -0.5, 0.0
+            ];
+
+            TriangleVertexPositionBuffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, TriangleVertexPositionBuffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+            TriangleVertexPositionBuffer.itemSize = 3;
+            TriangleVertexPositionBuffer.numItems = 3;
+        }
+
         function WebGLStart()
         {
             var canvas = document.getElementById("main_canvas");
             InitGL(canvas);
             InitShaders();
+            InitBuffers();
+
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
         }
 
     </script>
