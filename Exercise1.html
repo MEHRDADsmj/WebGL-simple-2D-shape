@@ -97,7 +97,10 @@
 
             gl.useProgram(Program);
 
-            Program.vertexPositionAttribute = Program.getAttribLocation(Program, "aVertexPosition");
+            gl.deleteShader(fragment);
+            gl.deleteShader(vertex);
+
+            Program.vertexPositionAttribute = gl.getAttribLocation(Program, "aVertexPosition");
             gl.enableVertexAttribArray(Program.vertexPositionAttribute);
 
             Program.pMatrixUniform = gl.getUniformLocation(Program, "uPMatrix");
