@@ -12,7 +12,7 @@
 
         void main()
         {
-            gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+            gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
         }
     </script>
 
@@ -42,7 +42,7 @@
             }
         }
 
-        function GetShader(gl, id)
+        function getShader(gl, id)
         {
             var shaderScript = document.getElementById(id);
             if (!shaderScript) {
@@ -82,8 +82,8 @@
 
         function InitShaders()
         {
-            var fragment = GetShader(gl, "fragment");
-            var vertex = GetShader(gl, "vertex");
+            var fragment = getShader(gl, "fragment");
+            var vertex = getShader(gl, "vertex");
 
             Program = gl.createProgram();
             gl.attachShader(Program, fragment);
@@ -133,7 +133,8 @@
             mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
             mat4.identity(mvMatrix);
 
-            mat4.translate(0.0, 0.0, -7.0);
+            mat4.translate(mvMatrix, [0.0, 0.0, -7.0]);
+            gl.bindBuffer(gl.ARRAY_BUFFER, TriangleVertexPositionBuffer);
             gl.vertexAttribPointer(Program.vertexPositionAttribute, TriangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
             SetMatrixUniforms();
             gl.drawArrays(gl.TRIANGLES, 0, TriangleVertexPositionBuffer.numItems);
