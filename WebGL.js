@@ -80,10 +80,27 @@ var TriangleVertexPositionBuffer;
 
 function InitBuffers()
 {
+    // Trying to make gitlab logo
     var vertices = [
-        -0.5, -0.5, 0.0,
-        0.5, 0.5, 0.0,
-        0.5, -0.5, 0.0
+        -1.0, 2.0, 0.0,
+        -1.5, 1.0, 0.0,
+        -0.5, 1.0, 0.0,
+        ///////////////
+        1.0, 2.0, 0.0,
+        1.5, 1.0, 0.0,
+        0.5, 1.0, 0.0,
+        ///////////////
+        -2.0, 0.0, 0.0,
+        2.0, 0.0, 0.0,
+        -1.5, 1.0, 0.0,
+        ///////////////
+        2.0, 0.0, 0.0,
+        -1.5, 1.0, 0.0,
+        1.5, 1.0, 0.0,
+        ///////////////
+        2.0, 0.0, 0.0,
+        -2.0, 0.0, 0.0,
+        0.0, -1.5, 0.0,
     ];
 
     TriangleVertexPositionBuffer = gl.createBuffer();
@@ -91,7 +108,7 @@ function InitBuffers()
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 
     TriangleVertexPositionBuffer.itemSize = 3;
-    TriangleVertexPositionBuffer.numItems = 3;
+    TriangleVertexPositionBuffer.numItems = 15;
 }
 
 function DrawScene()

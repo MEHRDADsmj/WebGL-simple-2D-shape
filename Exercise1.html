@@ -12,7 +12,18 @@
 
         void main()
         {
-            gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
+            if(gl_FragCoord.y > 484.0)
+            {
+                gl_FragColor = vec4(1.0, 0.3, 0.0, 1.0);
+            }
+            else if(gl_FragCoord.y > 230.0)
+            {
+                gl_FragColor = vec4(8.0, 0.6, 0.0, 1.0);
+            }
+            else
+            {
+                gl_FragColor = vec4(0.4, 0.2, 0.0, 1.0);
+            }
         }
     </script>
 
